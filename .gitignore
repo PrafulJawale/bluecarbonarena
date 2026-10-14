@@ -1,9 +1,4 @@
-.env
-*.db
 __pycache__/
-.venv/
-node_modules/
-dist/
-uploads/*
-!uploads/.gitkeep
-.pytest_cache/
+*.pyc
+*.db
+*.bak

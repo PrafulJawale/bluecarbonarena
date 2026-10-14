@@ -4,10 +4,23 @@ from sqlalchemy.orm import Mapped,mapped_column,relationship
 from datetime import datetime,timezone
 from .db import Base
 def now(): return datetime.now(timezone.utc)
+class ProjectMember(Base):
+    __tablename__="project_members"
+    id:Mapped[int]=mapped_column(primary_key=True); project_id:Mapped[int]=mapped_column(ForeignKey("projects.id"),index=True); user_id:Mapped[int]=mapped_column(ForeignKey("users.id"),index=True)
+    role:Mapped[str]=mapped_column(String(30),default="collaborator")
+    created_at:Mapped[datetime]=mapped_column(DateTime(timezone=True),default=now)
+    __table_args__=(UniqueConstraint("project_id","user_id",name="uq_project_member"),)
+class Observation(Base):
+    __tablename__="observations"
+    id:Mapped[int]=mapped_column(primary_key=True); project_id:Mapped[int]=mapped_column(ForeignKey("projects.id"),index=True); observer_id:Mapped[int]=mapped_column(ForeignKey("users.id"))
+    kind:Mapped[str]=mapped_column(String(60)); note:Mapped[str]=mapped_column(Text); latitude:Mapped[float|None]=mapped_column(Numeric(10,6),nullable=True); longitude:Mapped[float|None]=mapped_column(Numeric(10,6),nullable=True)
+    observed_on:Mapped[str]=mapped_column(String(20),default="")
+    status:Mapped[str]=mapped_column(String(30),default="recorded"); created_at:Mapped[datetime]=mapped_column(DateTime(timezone=True),default=now)
 class User(Base):
     __tablename__="users"
     id:Mapped[int]=mapped_column(primary_key=True); email:Mapped[str]=mapped_column(String(255),unique=True,index=True); full_name:Mapped[str]=mapped_column(String(255))
     hashed_password:Mapped[str]=mapped_column(String(255)); role:Mapped[str]=mapped_column(String(50),index=True); is_active:Mapped[bool]=mapped_column(Boolean,default=True)
+    token_version:Mapped[int]=mapped_column(Integer,default=0,nullable=False)  # bump to revoke all issued tokens (logout/deactivation/role change)
     created_at:Mapped[datetime]=mapped_column(DateTime(timezone=True),default=now)
 class Project(Base):
     __tablename__="projects"
@@ -16,6 +29,7 @@ class Project(Base):
     ecosystem:Mapped[str]=mapped_column(String(50),index=True); area_ha:Mapped[float]=mapped_column(Numeric(14,4)); status:Mapped[str]=mapped_column(String(30),default="draft",index=True)
     start_date:Mapped[str]=mapped_column(String(20),default="2024-01-01"); reporting_years:Mapped[int]=mapped_column(Integer,default=5)
     methodology:Mapped[str]=mapped_column(String(120),default="BCA-ILLUSTRATIVE v1.0"); latitude:Mapped[float|None]=mapped_column(Numeric(10,6),nullable=True); longitude:Mapped[float|None]=mapped_column(Numeric(10,6),nullable=True)
+    data_quality:Mapped[str]=mapped_column(String(30),default="current")  # current | stale (set when material edits invalidate calculations)
     boundary:Mapped[dict|None]=mapped_column(JSON,nullable=True); created_at:Mapped[datetime]=mapped_column(DateTime(timezone=True),default=now); updated_at:Mapped[datetime]=mapped_column(DateTime(timezone=True),default=now,onupdate=now)
     owner=relationship("User")
 class Evidence(Base):
