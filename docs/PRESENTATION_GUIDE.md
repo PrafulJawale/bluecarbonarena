@@ -1,0 +1,2 @@
+# Presentation Guide (5–8 min)
+1. Landing: scientific-integrity disclaimer. 2. Login as developer@bluecarbonarena.local / DemoPass123! → dashboard shows real seeded counts. 3. Open Demo Sundari project → run calculation, show formula. 4. Submit evidence. 5. Logout, login verifier@ → Verification approve an under-review project (first submit it as developer if needed). 6. Registry: simulated credits. 7. Login buyer@ → Marketplace buy 1, show order + reduced availability. 8. Map: zoom/pan/select marker. Recovery: restart backend, re-run seed (idempotent).

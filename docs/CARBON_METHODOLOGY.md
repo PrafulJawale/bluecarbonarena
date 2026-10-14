@@ -1,0 +1,2 @@
+# Carbon Methodology (Illustrative)
+Method `BCA-ILLUSTRATIVE v1.0` is a demonstration model, NOT an accredited methodology. Illustrative rates: mangrove 6.0, tidal marsh 4.5, seagrass 2.5 tC/ha/yr. Gross = area × rate × years × 44/12 (C→CO₂ molecular weight). Net = Gross×(1−uncertainty) − baseline. Stored carbon ≠ credits; potential ≠ verified ≠ issued. Issuance requires approved project and is capped at calculated net.

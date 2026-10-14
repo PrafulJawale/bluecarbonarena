@@ -1,0 +1,2 @@
+@import "tailwindcss"; @import "leaflet/dist/leaflet.css";
+:root{--navy:#06283d;--teal:#0e7c7b;--green:#2e7d4f} body{margin:0;font-family:Inter,system-ui,sans-serif;background:#f4f7f5;color:#102a33} a{color:#0e7c7b} button{cursor:pointer} :focus-visible{outline:3px solid #14b8a6;outline-offset:2px} @media (prefers-reduced-motion:reduce){*{transition:none!important}}
